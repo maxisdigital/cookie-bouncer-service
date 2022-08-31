@@ -1,15 +1,40 @@
-# "Cookie Bouncer" web service
-App Engine service that creates a POST API endpoint. The endpoint digests a JSON payload instructing what type of cookies to build into the `Set-Cookie` header.
+# Cookie Bouncer
 
-# Why?
-Safari's Intelligent Tracking Prevention caps the expiration of JavaScript cookies to max. 7 days. This is an inconvenience to first-party web analytics, which relies on persistent browser cookies for stitching together hits from a single web browser.
+This is a dockerised clone of [Simo Ahava's](https://www.simoahava.com/google-cloud/create-cookie-rewrite-web-service-google-cloud/) ["Cookie Bouncer"](https://github.com/sahava/cookie-bouncer-service/) web service.
 
-# How?
-The point of the web service is to offer an API that sets cookies in the `Set-Cookie` HTTP response header. This alone wouldn't be very useful, as these headers would be ineffective due to being sent cross-origin.
+Its purpose is to provide a POST API endpoint that writes back a first party HTTP cookie.
 
-However, you can set up a [custom domain mapping](https://cloud.google.com/appengine/docs/standard/python/mapping-custom-domains) to the Google App Engine endpoint, which effectively lets you service this API in your own domain namespace. Thus any cookies sent with the `Set-Cookie` header are treated as first-party cookies by the browser.
+These cookies are not subject to Safari ITP 2.4 7 day expiry for cookies. Cookies set via this endpoint will be retained for up to 2 years.
 
-# Instructions
-Guide: https://www.simoahava.com/google-cloud/create-cookie-rewrite-web-service-google-cloud/
+## Getting Started
 
-Video: https://youtu.be/cmRrSeR51tc
+These instructions will cover usage information and for the docker container 
+
+### Usage
+
+#### Environment Variables
+
+* `BASEURL` - A pathname the API will response on. Default is `/cookies`
+
+#### Volumes
+
+* `/usr/src/app` - Path the express app. Potential you could bind to a local folder.
+
+## Built With
+
+* Node 1.22.19
+* Yarn 16.17.0
+
+## Find Us
+
+* [Maxis Digital](https://www.maxisdigital.com.au)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Acknowledgments
+
+* [Simo Ahava](https://www.simoahava.com)
+* Guide: [Create a cookie rewrite web service using the google cloud platform](https://www.simoahava.com/google-cloud/create-cookie-rewrite-web-service-google-cloud/)
+* Github: [Cookie Bouncer Service](https://github.com/sahava/cookie-bouncer-service/)
