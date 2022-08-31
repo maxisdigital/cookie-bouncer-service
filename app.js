@@ -1,3 +1,4 @@
+const config = require('./config.js');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -23,9 +24,19 @@ const corsOptions = {
   credentials: true
 };
 
+var indexRouter = express.Router();
+indexRouter.get('/', function(req, res) {
+	res.send('Hello World!');
+});
+
+var cookiesRouter = express.Router();
+cookiesRouter.get('/', function(req, res) {
+  res.send('Hello from cookies');
+});
+
 app.options('/', cors(corsOptions));
 
-app.post('/', cors(corsOptions), (req, res, next) => {
+app.post(config.baseUr, cors(corsOptions), (req, res, next) => {
   const msg = req.body;
   const cookies = Array.isArray(msg) ? msg : [msg];
   const hasSet = [];
@@ -45,8 +56,10 @@ const PORT = process.env.PORT || '8080';
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+    console.log(`App listening on port ${PORT} at ${config.baseUrl}`);
   });
 }
+
+app.use(config.baseUrl, indexRouter);
 
 module.exports = app;
